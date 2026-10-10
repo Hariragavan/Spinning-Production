@@ -26,6 +26,28 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(morgan('dev'));
 
+// DB Auto-Connection Middleware for Vercel / serverless environments
+app.use(async (req, res, next) => {
+  if (mongoose.connection.readyState !== 1) {
+    try {
+      await connectDB();
+    } catch (err) {
+      console.error('[DB Auto-Connect Error]', err.message);
+    }
+  }
+  next();
+});
+
+// Root API status
+app.get('/api', (req, res) => {
+  res.json({
+    status: 'ONLINE',
+    system: 'SCM Textile Spinners / KTTM Unit 01 (Ringframe 2nd Shed)',
+    version: '1.0.0',
+    documentation: '/api/health'
+  });
+});
+
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/dashboard', dashboardRoutes);
@@ -57,7 +79,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: err.message || 'Internal Server Error' });
 });
 
-// Start Server
+// Start Server in local/standalone execution
 async function startServer() {
   await connectDB();
   app.listen(PORT, () => {
@@ -68,4 +90,8 @@ async function startServer() {
   });
 }
 
-startServer();
+if (process.env.NODE_ENV !== 'test') {
+  startServer();
+}
+
+export default app;
