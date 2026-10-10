@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
@@ -35,9 +36,17 @@ app.use('/api/admin', adminRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
+  const isConnected = mongoose.connection.readyState === 1;
   res.json({
-    status: 'ONLINE',
+    status: isConnected ? 'ONLINE' : 'DEGRADED',
     system: 'SCM Textile Spinners / KTTM Unit 01 (Ringframe 2nd Shed)',
+    database: {
+      connected: isConnected,
+      state: isConnected ? 'CONNECTED' : 'DISCONNECTED',
+      host: mongoose.connection.host || '127.0.0.1',
+      name: mongoose.connection.name || 'scm_spinning_production',
+      port: mongoose.connection.port || 27017
+    },
     timestamp: new Date().toISOString()
   });
 });
