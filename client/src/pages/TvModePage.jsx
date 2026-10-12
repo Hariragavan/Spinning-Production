@@ -15,9 +15,12 @@ import {
   Sparkles,
   Layers,
   AlertTriangle,
-  Clock
+  Clock,
+  LogIn,
+  LogOut
 } from 'lucide-react';
 import api from '../api';
+import { useAuth } from '../context/AuthContext';
 
 const SLIDES = [
   { id: 1, title: 'Mill KPI Overview & Shift Breakdown', duration: 15 },
@@ -26,7 +29,8 @@ const SLIDES = [
   { id: 4, title: 'October Hall of Fame (Top 6 Siders)', duration: 15 }
 ];
 
-export default function TvModePage({ onExit }) {
+export default function TvModePage({ onExit, onOpenLogin }) {
+  const { user, logout } = useAuth();
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -158,7 +162,7 @@ export default function TvModePage({ onExit }) {
             <span>{currentTime}</span>
           </div>
 
-          <div className="flex items-center gap-1.5 border-l border-slate-200 pl-3">
+          <div className="flex items-center gap-2 border-l border-slate-200 pl-3">
             <button
               onClick={() => setIsPaused(!isPaused)}
               className="p-1.5 rounded-md hover:bg-slate-100 text-slate-600 transition-colors"
@@ -173,13 +177,33 @@ export default function TvModePage({ onExit }) {
             >
               {isFullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
             </button>
-            {onExit && (
+
+            {user && user.role !== 'tv_display' ? (
+              <div className="flex items-center gap-1.5 pl-1">
+                {onExit && (
+                  <button
+                    onClick={onExit}
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 rounded-lg transition-colors shadow-xs"
+                  >
+                    <Layers size={14} />
+                    <span>Management Portal</span>
+                  </button>
+                )}
+                <button
+                  onClick={logout}
+                  title="Sign Out"
+                  className="p-1.5 text-slate-400 hover:text-rose-600 rounded-md transition-colors"
+                >
+                  <LogOut size={15} />
+                </button>
+              </div>
+            ) : (
               <button
-                onClick={onExit}
-                className="flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 rounded-md transition-colors"
+                onClick={onOpenLogin || onExit}
+                className="flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-xs transition-colors ml-1"
               >
-                <ArrowLeft size={14} />
-                <span>Exit TV</span>
+                <LogIn size={14} />
+                <span>Staff Login</span>
               </button>
             )}
           </div>

@@ -11,18 +11,22 @@ import TvModePage from './pages/TvModePage';
 import LoginPage from './pages/LoginPage';
 
 function AppContent() {
-  const { user, loading } = useAuth();
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const { user, loading, logout } = useAuth();
+  // Fresh open ALWAYS defaults to TV Dashboard
+  const [activeTab, setActiveTab] = useState('tv-mode');
   const [activeShift, setActiveShift] = useState('I');
   const [isCollapsed, setIsCollapsed] = useState(false);
 
-  // Check URL token bypass on mount
+  // Check URL path on mount
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get('token');
     const path = window.location.pathname;
 
-    if (token === 'shed2_live_display' || path === '/tv-mode') {
+    if (path === '/login') {
+      setActiveTab('login');
+    } else if (path === '/dashboard' && user && user.role !== 'tv_display') {
+      setActiveTab('dashboard');
+    } else {
+      // Default freshly opened link goes directly to TV dashboard
       setActiveTab('tv-mode');
     }
   }, []);
@@ -38,21 +42,43 @@ function AppContent() {
     );
   }
 
-  // If in fullscreen Shop TV Signage mode
+  // 1. If in Shop TV Signage mode (Default View)
   if (activeTab === 'tv-mode') {
-    return <TvModePage onExit={() => setActiveTab('dashboard')} />;
+    return (
+      <TvModePage
+        onExit={() => {
+          if (user && user.role !== 'tv_display') {
+            setActiveTab('dashboard');
+          } else {
+            setActiveTab('login');
+          }
+        }}
+        onOpenLogin={() => setActiveTab('login')}
+      />
+    );
   }
 
-  // If on dedicated Login page
+  // 2. If on dedicated Login page
   if (activeTab === 'login') {
     return (
       <LoginPage
-        onBackToDashboard={() => setActiveTab('dashboard')}
+        onBackToDashboard={() => setActiveTab('tv-mode')}
         onLoginSuccess={() => setActiveTab('dashboard')}
       />
     );
   }
 
+  // 3. Protected Management Portal: Must be logged in to edit or see management datas
+  if (!user || user.role === 'tv_display') {
+    return (
+      <LoginPage
+        onBackToDashboard={() => setActiveTab('tv-mode')}
+        onLoginSuccess={() => setActiveTab('dashboard')}
+      />
+    );
+  }
+
+  // 4. Authenticated Staff Management Portal
   return (
     <div className="flex h-screen bg-[#F8FAFC] overflow-hidden font-sans">
       {/* Left Sidebar Shell */}
@@ -67,7 +93,7 @@ function AppContent() {
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
-        {/* Top Header Bar with Full Screen, TV Mode, and Login Buttons */}
+        {/* Top Header Bar with Full Screen, TV Mode, and Login/User Profile */}
         <TopHeader
           onOpenLogin={() => setActiveTab('login')}
           onOpenTvMode={() => setActiveTab('tv-mode')}
