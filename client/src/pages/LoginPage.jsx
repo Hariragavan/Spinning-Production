@@ -171,53 +171,53 @@ export default function LoginPage({ onBackToDashboard, onLoginSuccess }) {
             <button
               type="button"
               disabled={loading}
-              onClick={() => handleQuickLogin('admin', 'adminpassword')}
+              onClick={() => handleQuickLogin('admin', '123')}
               className="p-2.5 rounded-xl border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/50 text-left transition-all group"
             >
               <div className="flex items-center justify-between font-bold text-slate-900 group-hover:text-indigo-700 text-xs">
                 <span>Mill Admin</span>
                 <ShieldCheck size={14} className="text-indigo-600" />
               </div>
-              <span className="text-[10px] text-slate-400 block mt-0.5">admin</span>
+              <span className="text-[10px] text-slate-400 block mt-0.5">user: admin · pwd: 123</span>
             </button>
 
             <button
               type="button"
               disabled={loading}
-              onClick={() => handleQuickLogin('sup_shift1', 'supervisorpass')}
+              onClick={() => handleQuickLogin('sup_shift1', '123')}
               className="p-2.5 rounded-xl border border-slate-200 hover:border-amber-400 hover:bg-amber-50/50 text-left transition-all group"
             >
               <div className="flex items-center justify-between font-bold text-slate-900 group-hover:text-amber-700 text-xs">
                 <span>Supervisor Shift I</span>
                 <Clock size={14} className="text-amber-600" />
               </div>
-              <span className="text-[10px] text-slate-400 block mt-0.5">Morning · sup_shift1</span>
+              <span className="text-[10px] text-slate-400 block mt-0.5">Morning · pwd: 123</span>
             </button>
 
             <button
               type="button"
               disabled={loading}
-              onClick={() => handleQuickLogin('sup_shift2', 'supervisorpass')}
+              onClick={() => handleQuickLogin('sup_shift2', '123')}
               className="p-2.5 rounded-xl border border-slate-200 hover:border-sky-400 hover:bg-sky-50/50 text-left transition-all group"
             >
               <div className="flex items-center justify-between font-bold text-slate-900 group-hover:text-sky-700 text-xs">
                 <span>Supervisor Shift II</span>
                 <Clock size={14} className="text-sky-600" />
               </div>
-              <span className="text-[10px] text-slate-400 block mt-0.5">Afternoon · sup_shift2</span>
+              <span className="text-[10px] text-slate-400 block mt-0.5">Afternoon · pwd: 123</span>
             </button>
 
             <button
               type="button"
               disabled={loading}
-              onClick={() => handleQuickLogin('sup_shift3', 'supervisorpass')}
+              onClick={() => handleQuickLogin('sup_shift3', '123')}
               className="p-2.5 rounded-xl border border-slate-200 hover:border-purple-400 hover:bg-purple-50/50 text-left transition-all group"
             >
               <div className="flex items-center justify-between font-bold text-slate-900 group-hover:text-purple-700 text-xs">
                 <span>Supervisor Shift III</span>
                 <Clock size={14} className="text-purple-600" />
               </div>
-              <span className="text-[10px] text-slate-400 block mt-0.5">Night · sup_shift3</span>
+              <span className="text-[10px] text-slate-400 block mt-0.5">Night · pwd: 123</span>
             </button>
           </div>
         </div>

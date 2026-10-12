@@ -161,11 +161,11 @@ export async function runSeed() {
   // 5. Users
   await User.deleteMany({});
   const users = [
-    { username: 'admin', password: 'adminpassword', name: 'Mill Manager (Admin)', role: 'admin', shift: 'ALL', pin: '9999' },
-    { username: 'sup_shift1', password: 'supervisorpass', name: 'R. Murugan (Shift 1)', role: 'supervisor', shift: 'I', pin: '1001' },
-    { username: 'sup_shift2', password: 'supervisorpass', name: 'S. Loganathan (Shift 2)', role: 'supervisor', shift: 'II', pin: '1002' },
-    { username: 'sup_shift3', password: 'supervisorpass', name: 'K. Senthil (Shift 3)', role: 'supervisor', shift: 'III', pin: '1003' },
-    { username: 'tv_display', password: 'kioskdisplaypassword', name: 'Shop Floor TV Display', role: 'tv_display', shift: 'ALL', pin: '0000' }
+    { username: 'admin', password: '123', name: 'Mill Manager (Admin)', role: 'admin', shift: 'ALL', pin: '9999' },
+    { username: 'sup_shift1', password: '123', name: 'R. Murugan (Shift 1)', role: 'supervisor', shift: 'I', pin: '1001' },
+    { username: 'sup_shift2', password: '123', name: 'S. Loganathan (Shift 2)', role: 'supervisor', shift: 'II', pin: '1002' },
+    { username: 'sup_shift3', password: '123', name: 'K. Senthil (Shift 3)', role: 'supervisor', shift: 'III', pin: '1003' },
+    { username: 'tv_display', password: '123', name: 'Shop Floor TV Display', role: 'tv_display', shift: 'ALL', pin: '0000' }
   ];
   for (const u of users) {
     const userDoc = new User(u);

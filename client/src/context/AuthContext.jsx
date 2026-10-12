@@ -47,10 +47,10 @@ export function AuthProvider({ children }) {
   const switchRole = async (targetRole, targetShift = 'I') => {
     try {
       if (targetRole === 'admin') {
-        await login({ username: 'admin', password: 'adminpassword' });
+        await login({ username: 'admin', password: '123' });
       } else if (targetRole === 'supervisor') {
         const usernameMap = { 'I': 'sup_shift1', 'II': 'sup_shift2', 'III': 'sup_shift3' };
-        await login({ username: usernameMap[targetShift] || 'sup_shift1', password: 'supervisorpass' });
+        await login({ username: usernameMap[targetShift] || 'sup_shift1', password: '123' });
       } else if (targetRole === 'tv_display') {
         const res = await api.get('/auth/tv-bypass?token=shed2_live_display');
         setToken(res.data.token);

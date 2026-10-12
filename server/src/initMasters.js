@@ -147,15 +147,14 @@ export async function initDatabaseMasters() {
 
   // 4. Initialize Users
   console.log('[Atlas DB Init] Seeding Authentication Users...');
-  const passwordHash = await bcrypt.hash('admin123', 10);
-  const shiftPasswordHash = await bcrypt.hash('shift123', 10);
+  const passwordHash = await bcrypt.hash('123', 10);
 
   const users = [
-    { username: 'admin', passwordHash, fullName: 'Mill General Manager', role: 'ADMIN', pinCode: '9999' },
-    { username: 'sup_shift1', passwordHash: shiftPasswordHash, fullName: 'Supervisor Shift I (Day)', role: 'SHIFT_SUPERVISOR', pinCode: '1001' },
-    { username: 'sup_shift2', passwordHash: shiftPasswordHash, fullName: 'Supervisor Shift II (Evening)', role: 'SHIFT_SUPERVISOR', pinCode: '1002' },
-    { username: 'sup_shift3', passwordHash: shiftPasswordHash, fullName: 'Supervisor Shift III (Night)', role: 'SHIFT_SUPERVISOR', pinCode: '1003' },
-    { username: 'tv_display', passwordHash, fullName: 'Shop Floor Signage Kiosk', role: 'TV_DISPLAY', pinCode: '0000' }
+    { username: 'admin', password: passwordHash, name: 'Mill General Manager', role: 'admin', shift: 'ALL', pin: '9999' },
+    { username: 'sup_shift1', password: passwordHash, name: 'Supervisor Shift I (Day)', role: 'supervisor', shift: 'I', pin: '1001' },
+    { username: 'sup_shift2', password: passwordHash, name: 'Supervisor Shift II (Evening)', role: 'supervisor', shift: 'II', pin: '1002' },
+    { username: 'sup_shift3', password: passwordHash, name: 'Supervisor Shift III (Night)', role: 'supervisor', shift: 'III', pin: '1003' },
+    { username: 'tv_display', password: passwordHash, name: 'Shop Floor Signage Kiosk', role: 'tv_display', shift: 'ALL', pin: '0000' }
   ];
 
   for (const u of users) {
